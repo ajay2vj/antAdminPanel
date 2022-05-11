@@ -3,17 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './input.css';
 import 'antd/dist/antd.min.css';
 import App from './App';
-import Home from './pages';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { QueryClient, QueryClientProvider } from 'react-query';
 const Routing = () => {
+  const queryClient = new QueryClient();
+
   return(
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<App />} />
-        <Route path="/admin" element={<Home />} />
-      </Routes>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   )
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));

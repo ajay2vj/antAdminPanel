@@ -6,6 +6,11 @@ span.anticon.anticon-menu-fold {
   margin: 10px 0px 0px 10px;
   font-size: 22px;
 }
+span.anticon.anticon-menu-unfold {
+  float: left;
+  margin: 10px 0px 0px 10px;
+  font-size: 22px;
+}
 .logo{
   font-size: 20px;
   text-align: center;
@@ -13,5 +18,5 @@ span.anticon.anticon-menu-fold {
   margin: 16px 0px;
 }
 .ant-layout.ant-layout-has-sider {
-  height: 100vh;
+  height: auto;
 }

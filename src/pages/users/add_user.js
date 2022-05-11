@@ -1,4 +1,8 @@
 import { Form, Input, Button, Select, Row, Col } from 'antd';
+import { useState } from 'react';
+// import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const { Option } = Select;
 const layout = {
   labelCol: {
@@ -12,16 +16,57 @@ const layout = {
 
 const AddUser = () => {
   const [form] = Form.useForm();
+  const [user_name, setUsername] = useState();
+  const [user_email, setUserEmail] = useState();
+  const [user_type, setUserType] = useState();
+  // let history = useLocation();
+  const selectType = (selectedType) => {
+    setUserType(selectedType)
+  }
 
-  const onFinish = (values) => {
-    // console.log(values);
-  };
+  async function createUser(credentials) {
+    return fetch('https://data2204n.herokuapp.com/user/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    })
+      .then(data => data.json())
+   }
+
+   const handleSubmit = async() => {
+     try{
+      await createUser({
+        user_name,
+        user_email,
+        user_type,
+      });
+     }catch(error){
+        // console.log(error)
+     }finally{
+        toast("User created successfully, password will be sent to mail!");
+        // history.goBack();
+     }
+  }
 
   return (
     <Row>
+      <ToastContainer />
       <Col span={13} offset={4}>
         <div className='px-5 py-5'>
-          <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
+          <Form {...layout} form={form} name="control-hooks" onFinish={handleSubmit}>
+            <Form.Item
+              name="userName"
+              label="User Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input onChange={(e)=> setUsername(e.target.value)}/>
+            </Form.Item>
             <Form.Item
               name="userEmail"
               label="User Email"
@@ -31,7 +76,7 @@ const AddUser = () => {
                 },
               ]}
             >
-              <Input />
+              <Input onChange={(e)=> setUserEmail(e.target.value)}/>
             </Form.Item>
             <Form.Item
               name="type"
@@ -44,12 +89,12 @@ const AddUser = () => {
             >
               <Select
                 placeholder="Select a option and change input text above"
-                // onChange={onGenderChange}
+                onChange={selectType}
                 allowClear
               >
-                <Option value="admin">Admin</Option>
-                <Option value="doctor">Doctor</Option>
-                <Option value="static">Static</Option>
+                <Option value="ADMIN">Admin</Option>
+                <Option value="DOCTOR">Doctor</Option>
+                <Option value="NURSE">Nurse</Option>
               </Select>
             </Form.Item>
             <Form.Item className='flex justify-end'>

@@ -5,6 +5,7 @@ import {
   UserOutlined,
   MedicineBoxFilled,
   FormOutlined,
+  MenuUnfoldOutlined
 } from '@ant-design/icons';
 import './style.css';
 export default function Sidebar({content, setKey}){
@@ -43,9 +44,15 @@ export default function Sidebar({content, setKey}){
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          <MenuFoldOutlined 
-            onClick={()=>{setCollapsed(!collapsed)}}
-          />
+          {collapsed ? 
+              <MenuUnfoldOutlined 
+                onClick={()=>{setCollapsed(!collapsed)}} 
+              /> 
+            : <MenuFoldOutlined 
+                onClick={()=>{setCollapsed(!collapsed)}}
+              />
+          }
+          
         </Header>
         <Content
           className="site-layout-background"
