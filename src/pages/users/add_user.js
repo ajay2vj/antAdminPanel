@@ -14,7 +14,7 @@ const layout = {
 };
 
 
-const AddUser = () => {
+export default function AddUser({setVisible}) {
   const [form] = Form.useForm();
   const [user_name, setUsername] = useState();
   const [user_email, setUserEmail] = useState();
@@ -46,6 +46,7 @@ const AddUser = () => {
         // console.log(error)
      }finally{
         toast("User created successfully, password will be sent to mail!");
+        // setVisible(false)
         // history.goBack();
      }
   }
@@ -108,5 +109,3 @@ const AddUser = () => {
     </Row>
   );
 };
-
-export default AddUser;

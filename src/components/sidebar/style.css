@@ -17,6 +17,6 @@ span.anticon.anticon-menu-unfold {
   color: #fff;
   margin: 16px 0px;
 }
-.ant-layout.ant-layout-has-sider {
-  height: auto;
+.site-layout .site-layout-background {
+  background: none;
 }

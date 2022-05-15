@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Input, Button } from 'antd';
 import PropTypes from 'prop-types';
 import './login.css'
-// import { useNavigate } from 'react-router-dom';
+import loginImg from '../../assets/img/login.png'
 
 export default function Login({ setToken }) {
-  // const history = useNavigate();
-
-  const onFinishFailed = (errorInfo) => {
-    // console.log('Failed:', errorInfo);
-  };
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -30,10 +25,47 @@ export default function Login({ setToken }) {
       password
     });
     setToken(token);
+    window.location.reload();
   }
 
   return (
-    <Form
+    <div>
+      <div className="box-form">
+        
+        <div className="right">
+          <h2>NCD Login</h2>
+          <p>Don't have an account? <span>Creat Your Account</span> it takes less than a minute</p>
+          <div className="inputs">
+            <Input 
+              type="text" 
+              placeholder="User Name"
+              autoComplete='off'
+              onChange={e => setUserName(e.target.value)}
+            />
+            <br />
+            <Input 
+              type="password"
+              placeholder="Password"
+              autoComplete='off'
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
+          <div className='flex justify-end'>
+            <Button 
+              type="primary" 
+              htmlType="submit"
+              onClick={(e)=>handleSubmit(e)}
+            >
+              Login
+            </Button>
+          </div>
+        </div>
+        <div className="left">
+          <img src={loginImg} alt='login'/>
+        </div>
+      </div>
+    
+    {/* <Form
       name="basic"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
@@ -63,7 +95,8 @@ export default function Login({ setToken }) {
           Submit
         </Button>
       </Form.Item>
-    </Form>
+    </Form> */}
+    </div>
   );
 };
 Login.propTypes = {

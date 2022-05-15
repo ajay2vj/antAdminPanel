@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons';
 import './style.css'
 import AddUser from './add_user';
+import Loader from '../../components/Loader';
 const columns = [
   {
     title: 'User Name',
@@ -60,7 +61,7 @@ const rowSelection = {
 };
 
 
-const Users = () => {
+export default function Users() {
   const [selectionType, ] = useState('checkbox');
   const [userAdd, setUseradd] = useState(false);
 
@@ -94,7 +95,7 @@ const Users = () => {
           />
           <span style={{fontSize: '16px'}}>Back to list</span>
         </div>
-        <AddUser />
+        <AddUser setVisible={setUseradd}/>
       </>
       ) : (
       <>
@@ -106,19 +107,24 @@ const Users = () => {
           Add
         </Button>
         <Divider />
-        <Table
-          rowSelection={{
-            type: selectionType,
-            ...rowSelection,
-          }}
-          columns={columns}
-          dataSource={dataTransform}
-        />
+        {dataFetch.isLoading ? (
+        <div className="w-full py-20 flex justify-center items-center">
+          <Loader />
+        </div>
+        ) : (
+          <Table
+            rowSelection={{
+              type: selectionType,
+              ...rowSelection,
+            }}
+            columns={columns}
+            dataSource={dataTransform}
+          />
+        )}
+        
       </>
       )}
       
     </div>
   );
 };
-
-export default Users;
