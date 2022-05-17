@@ -1,44 +1,39 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/sidebar';
 import Cases from './cases';
+import Dashboard from './dashboard';
+import Forms from './forms';
+import Organization from './organization';
 import Users from './users';
+import AddUser from './users/add_user';
 
 function Home() {
-  const [key , setKey] = useState('1');
+  const [pathName, setPathname] = useState('/dashboard');
   return (
     <Sidebar
       content={
         <>
-          {key === '1' &&(
-            <>
-              <h1 className="text-3xl font-bold">
-                Coming soon!
-              </h1>
-            </>
+          {pathName === '/dashboard' &&(
+            <Dashboard />
           )}
-          {key === '2'&&(
+          {pathName === '/user-list'&&(
             <Users />
           )}
-          {key === '3' &&(
-            <>
-              <h1 className="text-3xl font-bold">
-                Coming soon!
-              </h1>
-            </>
+          {pathName === '/organization' &&(
+            <Organization />
           )}
-          {key === '4' &&(
+          {pathName === '/case-list' &&(
             <Cases />
           )}
-          {key === '5' &&(
-            <>
-              <h1 className="text-3xl font-bold">
-                Coming soon!
-              </h1>
-            </>
+          {pathName === '/form-list' &&(
+            <Forms />
+          )}
+          {pathName === '/user-add' &&(
+            <AddUser />
           )}
         </>
       }
-      setKey={setKey}
+      setPathname={setPathname}
     />
   );
 }

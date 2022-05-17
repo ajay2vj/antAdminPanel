@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Layout, Menu } from 'antd';
+import { Link } from "react-router-dom";
 import {
   MenuFoldOutlined,
   UserOutlined,
@@ -11,12 +12,12 @@ import {
 } from '@ant-design/icons';
 import './style.css';
 import { useHistory } from "react-router-dom";
-export default function Sidebar({content, setKey}){
+export default function Sidebar({content, setPathname}){
   const { Header, Sider, Content } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   let history = useHistory()
   const MenuClick = (e) => {
-    setKey(e?.key)
+    setPathname(e?.domEvent?.view?.location?.pathname)
   }
   const logoutClick = () =>{
     localStorage.removeItem('token');
@@ -24,7 +25,7 @@ export default function Sidebar({content, setKey}){
     window.location.reload();
   }
   return(
-    <Layout>
+    <div className="flex">
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">NCD</div>
         <Menu
@@ -32,60 +33,46 @@ export default function Sidebar({content, setKey}){
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <DashboardOutlined />,
-              label: 'Dashboard',
-            },
-            {
-              key: '2',
-              icon: <UserOutlined />,
-              label: 'Users',
-            },
-            {
-              key: '3',
-              icon: <ApartmentOutlined />,
-              label: 'Organizations',
-            },
-            {
-              key: '4',
-              icon: <MedicineBoxFilled />,
-              label: 'Cases',
-            },
-            {
-              key: '5',
-              icon: <FormOutlined />,
-              label: 'Forms',
-            },
-          ]}
-        />
-      </Sider>
-      <Layout className="site-layout" style={{ height: "100vh", overflow: "auto" }}>
-        <Header className="site-layout-background" style={{ padding: 0, background: '#FFF' }}>
-          {collapsed ? 
-              <MenuUnfoldOutlined 
-                onClick={()=>{setCollapsed(!collapsed)}} 
-              /> 
-            : <MenuFoldOutlined 
-                onClick={()=>{setCollapsed(!collapsed)}}
-              />
-          }
-          <div className="flex justify-end mt-2 mr-2">
-            <Button onClick={()=> logoutClick()}>Logout</Button>
-          </div>
-        </Header>
-        <Content
-          className="site-layout-background"
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-          }}
         >
-          {content}
-        </Content>
-      </Layout>
+          <Menu.Item key="1" icon={<DashboardOutlined />}> <Link to={`/dashboard`}>Dashboard</Link></Menu.Item>
+          <Menu.SubMenu
+            icon={<UserOutlined />}
+            title={'User'}
+            key="6"
+          >
+            <Menu.Item> <Link to={`/user-list`}>User List</Link></Menu.Item>
+            <Menu.Item> <Link to={`/user-add`}>Add User</Link></Menu.Item>
+          </Menu.SubMenu>
+          <Menu.Item key="3" icon={<ApartmentOutlined />}> <Link to={`/organizations`}>Organizations</Link></Menu.Item>
+          <Menu.Item key="4" icon={<MedicineBoxFilled />}> <Link to={`/case-list`}>Cases</Link></Menu.Item>
+          <Menu.Item key="5" icon={<FormOutlined />}> <Link to={`/form-list`}>Forms</Link></Menu.Item>
+        </Menu>
+      </Sider>
+    <Layout className="site-layout" style={{ height: "100vh", overflow: "auto" }}>
+      <Header className="site-layout-background" style={{ padding: 0, background: '#FFF' }}>
+        {collapsed ? 
+            <MenuUnfoldOutlined 
+              onClick={()=>{setCollapsed(!collapsed)}} 
+            /> 
+          : <MenuFoldOutlined 
+              onClick={()=>{setCollapsed(!collapsed)}}
+            />
+        }
+        <div className="flex justify-end mt-2 mr-2">
+          <Button onClick={()=> logoutClick()}>Logout</Button>
+        </div>
+      </Header>
+      <Content
+        className="site-layout-background"
+        style={{
+          margin: '24px 16px',
+          padding: 24,
+          minHeight: 280,
+        }}
+      >
+        {content}
+      </Content>
     </Layout>
+    </div>
   )
 }

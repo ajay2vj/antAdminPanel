@@ -1,53 +1,9 @@
 import React, { useState } from 'react';
-import { Table, Divider, Button } from 'antd';
+import { Table, Divider, Button, Popconfirm } from 'antd';
 import axios from 'axios';
-import { useQuery } from 'react-query'
-import {
-  ArrowLeftOutlined
-} from '@ant-design/icons';
-import './style.css'
-import AddUser from './add_user';
+import { useQuery, useQueryClient } from 'react-query'
 import Loader from '../../components/Loader';
-const columns = [
-  {
-    title: 'User Name',
-    dataIndex: 'user_name',
-  },
-  {
-    title: 'User Type',
-    dataIndex: 'user_type',
-  },
-  {
-    title: 'Created At',
-    dataIndex: 'created_at',
-  },
-];
-// const data = [
-//   {
-//     key: '1',
-//     email: 'ajax@gmail.com',
-//     user_type: 'Admin',
-//     create_at: '01/12/2022',
-//   },
-//   {
-//     key: '2',
-//     email: 'java@gmail.com',
-//     user_type: 'Doctor',
-//     create_at: '10/09/2020',
-//   },
-//   {
-//     key: '3',
-//     email: 'javascript@gmail.com',
-//     user_type: 'Admin',
-//     create_at: '11/09/2019',
-//   },
-//   {
-//     key: '4',
-//     email: 'react@gmail.com',
-//     user_type: 'Doctor',
-//     create_at: '22/02/2022',
-//   },
-// ]; // rowSelection object indicates the need for row selection
+
 
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
@@ -60,10 +16,9 @@ const rowSelection = {
   }),
 };
 
-
 export default function Users() {
   const [selectionType, ] = useState('checkbox');
-  const [userAdd, setUseradd] = useState(false);
+  const queryClient = useQueryClient()
 
   const fetchUserList = async () => {
     const res = await axios({
@@ -83,48 +38,74 @@ export default function Users() {
     user_name: item?.user_name,
     user_type: item?.user_type,
     key: item?._id,
-    created_at: '22/02/2022'
+    created_at: '22/02/2022',
+    // action: 'Delete',
   }))
+
+  async function deleteAPI(credentials) {
+    return fetch('https://data2204n.herokuapp.com/user/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    })
+      .then(data => data.json())
+   }
+   const handleDelete = async(key) => {
+     await deleteAPI({
+      id: key
+    });
+    queryClient.invalidateQueries('userList', { exact: true })
+  }
+  const columns = [
+    {
+      title: 'User Name',
+      dataIndex: 'user_name',
+    },
+    {
+      title: 'User Type',
+      dataIndex: 'user_type',
+    },
+    {
+      title: 'Created At',
+      dataIndex: 'created_at',
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      render: (_, record) =>
+      dataTransform?.length >= 1 ? (
+        <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+          <Button>Delete</Button>
+        </Popconfirm>
+      ) : null,
+    },
+  ];
   return (
     <div>
-      {userAdd ? (
-      <>
-        <div className='flex gap-3'>
-          <ArrowLeftOutlined 
-            onClick={()=> setUseradd(false)}
-          />
-          <span style={{fontSize: '16px'}}>Back to list</span>
-        </div>
-        <AddUser setVisible={setUseradd}/>
-      </>
+      <Button 
+        type="primary" 
+        className='float-right mb-2'
+        onClick={()=> {}}
+      >
+        Add
+      </Button>
+      <Divider />
+      {dataFetch.isLoading ? (
+      <div className="w-full py-20 flex justify-center items-center">
+        <Loader />
+      </div>
       ) : (
-      <>
-        <Button 
-          type="primary" 
-          className='float-right mb-2'
-          onClick={()=> setUseradd(!userAdd)}
-        >
-          Add
-        </Button>
-        <Divider />
-        {dataFetch.isLoading ? (
-        <div className="w-full py-20 flex justify-center items-center">
-          <Loader />
-        </div>
-        ) : (
-          <Table
-            rowSelection={{
-              type: selectionType,
-              ...rowSelection,
-            }}
-            columns={columns}
-            dataSource={dataTransform}
-          />
-        )}
-        
-      </>
+        <Table
+          rowSelection={{
+            type: selectionType,
+            ...rowSelection,
+          }}
+          columns={columns}
+          dataSource={dataTransform}
+        />
       )}
-      
     </div>
   );
 };

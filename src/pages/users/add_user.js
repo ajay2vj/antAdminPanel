@@ -1,8 +1,9 @@
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 import { useState } from 'react';
-// import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useQueryClient } from 'react-query';
 const { Option } = Select;
 const layout = {
   labelCol: {
@@ -14,12 +15,13 @@ const layout = {
 };
 
 
-export default function AddUser({setVisible}) {
+export default function AddUser() {
   const [form] = Form.useForm();
   const [user_name, setUsername] = useState();
   const [user_email, setUserEmail] = useState();
   const [user_type, setUserType] = useState();
-  // let history = useLocation();
+  const queryClient = useQueryClient()
+  let history = useHistory();
   const selectType = (selectedType) => {
     setUserType(selectedType)
   }
@@ -46,8 +48,9 @@ export default function AddUser({setVisible}) {
         // console.log(error)
      }finally{
         toast("User created successfully, password will be sent to mail!");
+        queryClient.invalidateQueries('userList', { exact: true })
         // setVisible(false)
-        // history.goBack();
+        history.push('/user-list');
      }
   }
 

@@ -34,7 +34,7 @@ export default function Login({ setToken }) {
         
         <div className="right">
           <h2>NCD Login</h2>
-          <p>Don't have an account? <span>Creat Your Account</span> it takes less than a minute</p>
+          {/* <p>Don't have an account? <span>Creat Your Account</span> it takes less than a minute</p> */}
           <div className="inputs">
             <Input 
               type="text" 
