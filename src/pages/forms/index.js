@@ -1,9 +1,10 @@
 import React from 'react'
-
+import Layout from '../layout'
 export default function Forms(){
   return(
-    <>
-      Coming Soon..
-    </>
+    <Layout 
+      content={'Coming soon'}
+      headingText='Forms List'
+    />
   )
 }

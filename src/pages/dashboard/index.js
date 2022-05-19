@@ -1,9 +1,10 @@
 import React from 'react'
-
+import Layout from '../layout'
 export default function Dashboard(){
   return(
-    <>
-      Coming Soon..
-    </>
+    <Layout 
+      content={'Coming soon'}
+      headingText='Dashboard'
+    />
   )
 }

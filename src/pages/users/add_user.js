@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useQueryClient } from 'react-query';
+import Layout from '../layout';
 const { Option } = Select;
 const layout = {
   labelCol: {
@@ -55,60 +56,65 @@ export default function AddUser() {
   }
 
   return (
-    <Row>
-      <ToastContainer />
-      <Col span={13} offset={4}>
-        <div className='px-5 py-5'>
-          <Form {...layout} form={form} name="control-hooks" onFinish={handleSubmit}>
-            <Form.Item
-              name="userName"
-              label="User Name"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input onChange={(e)=> setUsername(e.target.value)}/>
-            </Form.Item>
-            <Form.Item
-              name="userEmail"
-              label="User Email"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input onChange={(e)=> setUserEmail(e.target.value)}/>
-            </Form.Item>
-            <Form.Item
-              name="type"
-              label="Type"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={selectType}
-                allowClear
-              >
-                <Option value="ADMIN">Admin</Option>
-                <Option value="DOCTOR">Doctor</Option>
-                <Option value="NURSE">Nurse</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item className='flex justify-end'>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      </Col>
-    </Row>
+    <Layout
+      headingText="Add new user"
+      content={
+        <Row>
+          <ToastContainer />
+          <Col span={13} offset={4}>
+            <div className='px-5 py-5'>
+              <Form {...layout} form={form} name="control-hooks" onFinish={handleSubmit}>
+                <Form.Item
+                  name="userName"
+                  label="User Name"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input onChange={(e)=> setUsername(e.target.value)}/>
+                </Form.Item>
+                <Form.Item
+                  name="userEmail"
+                  label="User Email"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input onChange={(e)=> setUserEmail(e.target.value)}/>
+                </Form.Item>
+                <Form.Item
+                  name="type"
+                  label="Type"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder="Select a option and change input text above"
+                    onChange={selectType}
+                    allowClear
+                  >
+                    <Option value="ADMIN">Admin</Option>
+                    <Option value="DOCTOR">Doctor</Option>
+                    <Option value="NURSE">Nurse</Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item className='flex justify-end'>
+                  <Button type="primary" htmlType="submit">
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Form>
+            </div>
+          </Col>
+        </Row>
+      }
+    />
   );
 };

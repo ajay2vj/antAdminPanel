@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Table, Divider, Button, Popconfirm } from 'antd';
+import { Table, Button, Popconfirm } from 'antd';
 import axios from 'axios';
 import { useQuery, useQueryClient } from 'react-query'
 import Loader from '../../components/Loader';
+import Layout from '../layout';
 
 
 const rowSelection = {
@@ -83,29 +84,32 @@ export default function Users() {
     },
   ];
   return (
-    <div>
-      <Button 
-        type="primary" 
-        className='float-right mb-2'
-        onClick={()=> {}}
-      >
-        Add
-      </Button>
-      <Divider />
-      {dataFetch.isLoading ? (
-      <div className="w-full py-20 flex justify-center items-center">
-        <Loader />
-      </div>
-      ) : (
-        <Table
-          rowSelection={{
-            type: selectionType,
-            ...rowSelection,
-          }}
-          columns={columns}
-          dataSource={dataTransform}
-        />
-      )}
-    </div>
+    <Layout
+      headingText='User List'
+      content={
+        <>
+          <Button 
+            type="primary" 
+            className='float-right mb-2'
+          >
+            <a href='/user-add'>Add</a>
+          </Button>
+          {dataFetch.isLoading ? (
+          <div className="w-full py-20 flex justify-center items-center">
+            <Loader />
+          </div>
+          ) : (
+            <Table
+              rowSelection={{
+                type: selectionType,
+                ...rowSelection,
+              }}
+              columns={columns}
+              dataSource={dataTransform}
+            />
+          )} 
+        </>
+      }
+    />
   );
 };

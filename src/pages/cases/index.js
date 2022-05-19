@@ -6,6 +6,7 @@ import moment from 'moment';
 // import { ArrowLeftOutlined } from '@ant-design/icons';
 // import AddUser from './add_user';
 import Loader from '../../components/Loader';
+import Layout from '../layout';
 const columns = [
   {
     title: 'Patient Name',
@@ -55,21 +56,26 @@ export default function Cases() {
     key: item?._id
   }))
   return (
-    <div>
-      {dataFetch.isLoading ? (
-        <div className="w-full py-20 flex justify-center items-center">
-          <Loader />
+    <Layout
+      headingText='Case List'
+      content={
+        <div>
+          {dataFetch.isLoading ? (
+            <div className="w-full py-20 flex justify-center items-center">
+              <Loader />
+            </div>
+            ) : (
+              <Table
+                rowSelection={{
+                  type: selectionType,
+                  ...rowSelection,
+                }}
+                columns={columns}
+                dataSource={dataTransform}
+              />
+          )}
         </div>
-        ) : (
-          <Table
-            rowSelection={{
-              type: selectionType,
-              ...rowSelection,
-            }}
-            columns={columns}
-            dataSource={dataTransform}
-          />
-      )}
-    </div>
+      }
+    />
   );
 };

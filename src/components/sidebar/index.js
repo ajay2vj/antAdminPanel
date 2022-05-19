@@ -19,11 +19,7 @@ export default function Sidebar({content, setPathname}){
   const MenuClick = (e) => {
     setPathname(e?.domEvent?.view?.location?.pathname)
   }
-  const logoutClick = () =>{
-    localStorage.removeItem('token');
-    history.push('/login')
-    window.location.reload();
-  }
+  
   return(
     <div className="flex">
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -38,14 +34,14 @@ export default function Sidebar({content, setPathname}){
           <Menu.SubMenu
             icon={<UserOutlined />}
             title={'User'}
-            key="2"
+            key="6"
           >
-            <Menu.Item key="3"> <Link to={`/user-list`}>User List</Link></Menu.Item>
-            <Menu.Item key="4"> <Link to={`/user-add`}>Add User</Link></Menu.Item>
+            <Menu.Item> <Link to={`/user-list`}>User List</Link></Menu.Item>
+            <Menu.Item> <Link to={`/user-add`}>Add User</Link></Menu.Item>
           </Menu.SubMenu>
-          <Menu.Item key="5" icon={<ApartmentOutlined />}> <Link to={`/organizations`}>Organizations</Link></Menu.Item>
-          <Menu.Item key="6" icon={<MedicineBoxFilled />}> <Link to={`/case-list`}>Cases</Link></Menu.Item>
-          <Menu.Item key="7" icon={<FormOutlined />}> <Link to={`/form-list`}>Forms</Link></Menu.Item>
+          <Menu.Item key="3" icon={<ApartmentOutlined />}> <Link to={`/organizations`}>Organizations</Link></Menu.Item>
+          <Menu.Item key="4" icon={<MedicineBoxFilled />}> <Link to={`/case-list`}>Cases</Link></Menu.Item>
+          <Menu.Item key="5" icon={<FormOutlined />}> <Link to={`/form-list`}>Forms</Link></Menu.Item>
         </Menu>
       </Sider>
     <Layout className="site-layout" style={{ height: "100vh", overflow: "auto" }}>

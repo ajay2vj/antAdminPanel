@@ -1,9 +1,10 @@
 import React from 'react'
-
+import Layout from '../layout'
 export default function Organization(){
   return(
-    <>
-      Coming Soon..
-    </>
+    <Layout
+      headingText='Organization'
+      content={'Coming soon'}
+    />
   )
 }

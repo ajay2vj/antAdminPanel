@@ -1,10 +1,7 @@
-body {
-  background-image: linear-gradient(135deg, #daa9de 10%, #7d71f2 100%);
-}
+
 .box-form {
   margin: 0 auto;
   width: 80%;
-  background: #FFFFFF;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
@@ -23,6 +20,7 @@ body {
 }
 .box-form div {
   height: auto;
+  background: #FFF;
 }
 
 .box-form .left .overlay {
@@ -61,6 +59,7 @@ body {
   padding: 40px;
   overflow: hidden;
   width: inherit;
+  background-color: #FFF;
 }
 @media (max-width: 980px) {
   .box-form .right {
@@ -112,4 +111,7 @@ p span {
 }
 .input input.ant-input {
   background: #FFF !important;
+}
+.ant-input-focused, .ant-input:focus {
+  box-shadow: none !important;
 }

@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Input, Button } from 'antd';
-import PropTypes from 'prop-types';
 import './login.css'
 import loginImg from '../../assets/img/login.png'
-
-export default function Login({ setToken }) {
+import swal from 'sweetalert';
+export default function Login() {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-
   async function loginUser(credentials) {
-    return fetch('https://reqres.in/api/login', {
+    return fetch('https://www.mecallapi.com/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -18,14 +16,25 @@ export default function Login({ setToken }) {
     })
       .then(data => data.json())
    }
-   const handleSubmit = async() => {
-    // e.preventDefault();
-    const token = await loginUser({
+   const handleSubmit = async e => {
+    e.preventDefault();
+    const response = await loginUser({
       username,
       password
     });
-    setToken(token);
-    window.location.reload();
+    if ('accessToken' in response) {
+      swal("Success", response.message, "success", {
+        buttons: false,
+        timer: 2000,
+      })
+      .then((value) => {
+        localStorage.setItem('accessToken', response['accessToken']);
+        localStorage.setItem('user', JSON.stringify(response['user']));
+        window.location.href = "/dashboard";
+      });
+    } else {
+      swal("Failed", response.message, "error");
+    }
   }
 
   return (
@@ -98,7 +107,4 @@ export default function Login({ setToken }) {
     </Form> */}
     </div>
   );
-};
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
 };
